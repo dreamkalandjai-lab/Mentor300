@@ -8,8 +8,7 @@ else:
     st.error("Hiányzik a GEMINI_API_KEY a Secrets beállításokból!")
 
 # Modell inicializálása
-model = genai.GenerativeModel('gemini-1.5-pro')
-
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 # Webes felület címe
 st.title("🧠 Mentor300")
 st.write("A 300 IQ-s asszisztens")
