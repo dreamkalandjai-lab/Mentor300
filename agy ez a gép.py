@@ -7,8 +7,13 @@ if "GEMINI_API_KEY" in st.secrets:
 else:
     st.error("Hiányzik a GEMINI_API_KEY a Secrets beállításokból!")
 
-# Modell inicializálása
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+# Modell listázása hibakereséshez
+try:
+    for m in genai.list_models():
+        if 'generateContent' in m.supported_generation_methods:
+            st.write(f"Működő modell név: `{m.name}`")
+except Exception as e:
+    st.write(f"Hiba a listázásnál: {e}")
 # Webes felület címe
 st.title("🧠 Mentor300")
 st.write("A 300 IQ-s asszisztens")
