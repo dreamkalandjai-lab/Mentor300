@@ -40,7 +40,7 @@ if user_query := st.chat_input("Írj valamit a Mentor300-nak..."):
     # Mentjük a felhasználó mostani üzenetét a Streamlit memóriába
     st.session_state.messages.append({"role": "user", "content": user_query})
     
-    # Válasz generálása
+    # Válasz generálás
     with st.chat_message("assistant"):
         with st.spinner("Gondolkozom..."):
             response = chat.send_message(f"{rendszerszabaly}\n\nFelhasználó: {user_query}")
