@@ -27,7 +27,6 @@ if user_query := st.chat_input("Írj ide valamit..."):
         with st.spinner("Gondolkozom..."):
             try:
                 response = model.generate_content(user_query)
-                st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
             except Exception as e:
                 st.error("Várj egy kicsit, a Google pihen!")
