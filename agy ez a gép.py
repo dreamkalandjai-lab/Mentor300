@@ -6,6 +6,14 @@ if "GEMINI_API_KEY" in st.secrets:
 else:
     st.error("Hiányzik a GEMINI_API_KEY!")
 
+rendszerszabaly = (
+    "Te egy végtelenül laza, közvetlen, baráti AI asszisztens vagy (mint egy haver). "
+    "KIZÁRÓLAG magyarul válaszolhatsz, kivéve, ha a felhasználó kifejezetten megkér rá, hogy válts nyelvet! "
+    "A stílusod legyen fiatalos, használj szlenget (pl. bro, geci, adom, darálás), ne legyél hivatalos vagy karót nyelt. "
+    "A válaszaid legyenek rövidek, lényegretörőek és scannalhetőek. "
+    "Mindig igazodj a felhasználó hangulatához és stílusához!"
+)
+
 st.title("🧠 Mentor300")
 st.write("A stabil, újratöltött asszisztens")
 
@@ -21,12 +29,16 @@ if user_query := st.chat_input("Írj ide valamit..."):
         st.markdown(user_query)
     st.session_state.messages.append({"role": "user", "content": user_query})
     
+    teljes_keres = f"{rendszerszabaly}\n\nFelhasználó kérdése: {user_query}"
     model = genai.GenerativeModel('gemini-2.5-flash')
     
     with st.chat_message("assistant"):
         with st.spinner("Gondolkozom..."):
             try:
-                response = model.generate_content(user_query)
+                response = model.generate_content(teljes_keres)
+                st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
             except Exception as e:
-                st.error("Várj egy kicsit, a Google pihen!")
+                hiba_szoveg = "Bocsi bro, túl gyorsan nyomtuk, a Google kért egy kis pihenőt. Nyomj rá mindjárt újra!"
+                st.markdown(hiba_szoveg)
+                st.session_state.messages.append({"role": "assistant", "content": hiba_szoveg})
